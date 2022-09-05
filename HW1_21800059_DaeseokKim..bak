@@ -59,18 +59,16 @@
 ; [tests] (test (combination 3 2) 3)
 ;           (test (combination 10 4) 210)
 
-(define (factorial n)
-     (cond
-       [( = n 0 )1]
-       [else (* n (factorial (- n 1 )))]
-        ))
+(define factorial 
+  ( lambda (n )
+     (if( = n 0 )1
+        ( * n (factorial (- n 1 ) )))))
 
 (define (combination n k)
   (/(factorial n) (*(factorial(- n k))(factorial k))))
 
 (test (combination 10 4) 210)
 (test (combination 3 2) 3)
-
 
 
 
