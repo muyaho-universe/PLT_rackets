@@ -3,14 +3,14 @@
 ; Problem 1
 ; Solved by myself: Y
 ; Time taken: about 10 mins
-; [contract] USD->WON: number -> number
+; [contract] dollar->won number -> number
 ; [purpose] To convert US dollar to Korea won
-; [tests] (test (USD->WON 1) 1342)
-;           (test (USD->WON 2) 2684)
-(define (USD->WON dollar)
+; [tests] (test (dollar->won 1) 1342)
+;           (test (dollar->won 2) 2684)
+(define (dollar->won dollar)
   (* dollar 1342))
-(test (USD->WON 1) 1342)
-(test (USD->WON 2) 2684)
+(test (dollar->won 1) 1342)
+(test (dollar->won 2) 2684)
 
 ; Problem 2
 ; Solved by myself: Y
@@ -71,7 +71,17 @@
 (test (combination 10 4) 210)
 (test (combination 3 2) 3)
 
+; Problem 6-a
+; Solved by myself: Y
+; Time taken: about 10 mins
+; [contract] Vehicle : number -> number
+; [purpose] To define the type Vehicle, which has three variants, Bicycle, Car, Airplane.
+; [tests] (test (combination 3 2) 3)
+;           (test (combination 10 4) 210)
 
-
-
-
+(define-type GUI
+	[label 		(text string?)]
+	[button 	(text string?)
+				(enabled? boolean?)]
+	[choice 	(items (listof string?))
+				(selected integer?)])
