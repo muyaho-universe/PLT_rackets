@@ -156,19 +156,22 @@
 ; Problem 7
 ; Solved by myself: Y
 ; Time taken: about 60 mins
-; [contract] update-name : symbol symbol list of symbol -> list of symbols
-; [purpose] To replacing all occurrences of old by new
+; [contract] update-name : symbol symbol list of symbols -> list of symbols
+; [purpose] To replace all occurrences of old by new
 ; [tests] (test (update-name 'cherry 'claire (cons 'jc (cons 'cherry (cons 'kate empty))))
 ;      '(jc claire kate))
 ;(test (update-name 'muyaho 'ball (list 'fifa 'soccer 'muyaho 'goal))
 ;     '(fifa soccer ball goal))
+;(test (update-name 'abc 'zzz (list 'abc 'def 'ghi 'jkl))
+;     '(zzz def ghi jkl))
 
+;(test (update-name 'jkl 'zzz (list 'abc 'def 'ghi 'jkl))
+;     '(abc def ghi zzz))
 
 (define (update-name old new list_of_symbols)
   (append(foldl cons '() (rest (member old (foldl cons '() list_of_symbols))))
   (cons new (rest (member old list_of_symbols))))
  )
-
 
 (test (update-name 'cherry 'claire (cons 'jc (cons 'cherry (cons 'kate empty))))
      '(jc claire kate))
@@ -179,5 +182,26 @@
 (test (update-name 'abc 'zzz (list 'abc 'def 'ghi 'jkl))
      '(zzz def ghi jkl))
 
+(test (update-name 'jkl 'zzz (list 'abc 'def 'ghi 'jkl))
+     '(abc def ghi zzz))
 
-	
+; Problem 8
+; Solved by myself: Y
+; Time taken: about 60 mins
+; [contract] binary-search :a list of numbers number ->  list of numbers
+; [purpose] To produces a list of numbers which is binary-search traversal history.
+; [tests]
+
+(define (binary-search-index lst target index)
+  (cond
+    [(=(list-ref lst index) target) 
+  )
+
+(define (binary-search lst target)
+  (cond
+    [(= (modulo (length lst) 2) 1)
+     
+     ]
+    )
+  )
+
