@@ -73,15 +73,60 @@
 
 ; Problem 6-a
 ; Solved by myself: Y
-; Time taken: about 10 mins
-; [contract] Vehicle : number -> number
+; Time taken: about 40 mins
+; [contract] Vehicle 
 ; [purpose] To define the type Vehicle, which has three variants, Bicycle, Car, Airplane.
-; [tests] (test (combination 3 2) 3)
-;           (test (combination 10 4) 210)
+; [tests] (test (Bicycle? (define myBike (3)))
+;           
 
-(define-type GUI
-	[label 		(text string?)]
-	[button 	(text string?)
-				(enabled? boolean?)]
-	[choice 	(items (listof string?))
-				(selected integer?)])
+(define-type Vehicle
+	[Bicycle 		(wheels number?)]
+	[Car 	(wheels number?)
+				(windows number?)]
+	[Airplane 	(wheels number?)
+				(windows number?)
+                                (engines number?)])
+(define myBike (Bicycle 3))
+
+(test (Bicycle? myBike) true)
+      
+; Problem 6-b
+; Solved by myself: Y
+; Time taken: about 20 mins
+; [contract] vehicle-tax : Vehicle numver number number -> number
+; [purpose] To calculate tax for a vehicle differs on the number of wheels, windows and engines.
+; [tests] 
+;          
+
+(define (vehicle-tax v tax_per_wheel tax_per_window tax_per_engine)
+	(type-case Vehicle v
+		[Bicycle (wh)	(* wh tax_per_wheel)]
+		[Car (wh wi)	(+(* wh tax_per_wheel) (* wi tax_per_window))]
+		[Airplane (wh wi en) (+(* wh tax_per_wheel) (* wi tax_per_window) (* wi tax_per_engine))]
+          ))
+
+; Problem 6-c
+; Solved by myself: Y
+; Time taken: about 20 mins
+; [contract] is-vehicle-safe : Vehicle -> string
+; [purpose] To calculate tax for a vehicle differs on the number of wheels, windows and engines.
+; [tests] 
+;          
+
+(define (is-vehicle-safe v )
+	(type-case Vehicle v
+		[Bicycle (wh)
+                         (cond
+                           [(< wh 4) "safe"]
+                           [else "unsafe"])]
+          
+		[Car (wh wi)
+                     (cond
+                       [(and((< 3 wh) (< 2 wi))) "safe"]
+                       [else "unsafe"])]
+          
+		[Airplane (wh wi en)
+                          (cond
+                            [(and (< 2 wh) (< 10 wi) (< 1 en) ) "safe"]
+                            [else "unsafe"])]
+          ))
