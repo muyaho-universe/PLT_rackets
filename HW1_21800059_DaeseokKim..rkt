@@ -121,7 +121,7 @@
 ; Solved by myself: Y
 ; Time taken: about 20 mins
 ; [contract] is-vehicle-safe : Vehicle -> string
-; [purpose] To calculate tax for a vehicle differs on the number of wheels, windows and engines.
+; [purpose] To make sure that all vehicles meet the safety standards.
 ; [tests] (test (is-vehicle-safe myBike) "safe")
 ;           (test (is-vehicle-safe myCar) "safe")
 ;           (test (is-vehicle-safe badCar) "unsafe")
@@ -150,4 +150,13 @@
 (test (is-vehicle-safe myCar) "safe")
 (test (is-vehicle-safe badCar) "unsafe")
 (test (is-vehicle-safe myAirplane) "safe")
-(test (is-vehicle-safe badAirplane) "unsafe")  
+(test (is-vehicle-safe badAirplane) "unsafe")
+
+
+; Problem 7
+; Solved by myself: Y
+; Time taken: about 20 mins
+; [contract] update-name : symbol symbol -> a list of symbols
+; [purpose] To replacing all occurrences of old by new
+; [tests] (test (update-name 'cherry 'claire (cons 'jc (cons 'cherry (cons 'kate empty))))
+;      '(jc claire kate))
