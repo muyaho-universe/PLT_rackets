@@ -76,8 +76,9 @@
 ; Time taken: about 40 mins
 ; [contract] Vehicle 
 ; [purpose] To define the type Vehicle, which has three variants, Bicycle, Car, Airplane.
-; [tests] (test (Bicycle? (define myBike (3)))
-;           
+; [tests] (test (Bicycle? myBike) true)
+;           (test (Bicycle? myCar) false)
+;           (test (Airplane? badAirplane) true)
 
 (define-type Vehicle
 	[Bicycle 		(wheels number?)]
@@ -87,31 +88,45 @@
 				(windows number?)
                                 (engines number?)])
 (define myBike (Bicycle 3))
+(define myCar (Car 4 4))
+(define badCar (Car 1 4))
+(define myAirplane (Airplane 4 100 4))
+(define badAirplane (Airplane 1 0 4))
 
 (test (Bicycle? myBike) true)
+(test (Bicycle? myCar) false)
+(test (Airplane? badAirplane) true)
       
 ; Problem 6-b
 ; Solved by myself: Y
 ; Time taken: about 20 mins
 ; [contract] vehicle-tax : Vehicle numver number number -> number
 ; [purpose] To calculate tax for a vehicle differs on the number of wheels, windows and engines.
-; [tests] 
-;          
+; [tests] (test (vehicle-tax myBike 10 20 30) 30)
+;           (test (vehicle-tax myCar 100 150 200) 1000)
+;           (test (vehicle-tax badAirplane 1500 3000 5000) 21500)
 
 (define (vehicle-tax v tax_per_wheel tax_per_window tax_per_engine)
 	(type-case Vehicle v
 		[Bicycle (wh)	(* wh tax_per_wheel)]
 		[Car (wh wi)	(+(* wh tax_per_wheel) (* wi tax_per_window))]
-		[Airplane (wh wi en) (+(* wh tax_per_wheel) (* wi tax_per_window) (* wi tax_per_engine))]
+		[Airplane (wh wi en) (+(* wh tax_per_wheel) (* wi tax_per_window) (* en tax_per_engine))]
           ))
+
+(test (vehicle-tax myBike 10 20 30) 30)
+(test (vehicle-tax myCar 100 150 200) 1000)
+(test (vehicle-tax badAirplane 1500 3000 5000) 21500)
 
 ; Problem 6-c
 ; Solved by myself: Y
 ; Time taken: about 20 mins
 ; [contract] is-vehicle-safe : Vehicle -> string
 ; [purpose] To calculate tax for a vehicle differs on the number of wheels, windows and engines.
-; [tests] 
-;          
+; [tests] (test (is-vehicle-safe myBike) "safe")
+;           (test (is-vehicle-safe myCar) "safe")
+;           (test (is-vehicle-safe badCar) "unsafe")
+;           (test (is-vehicle-safe myAirplane) "safe")
+;           (test (is-vehicle-safe badAirplane) "unsafe")   
 
 (define (is-vehicle-safe v )
 	(type-case Vehicle v
@@ -122,7 +137,7 @@
           
 		[Car (wh wi)
                      (cond
-                       [(and((< 3 wh) (< 2 wi))) "safe"]
+                       [(and(< 3 wh) (< 2 wi)) "safe"]
                        [else "unsafe"])]
           
 		[Airplane (wh wi en)
@@ -130,3 +145,9 @@
                             [(and (< 2 wh) (< 10 wi) (< 1 en) ) "safe"]
                             [else "unsafe"])]
           ))
+
+(test (is-vehicle-safe myBike) "safe")
+(test (is-vehicle-safe myCar) "safe")
+(test (is-vehicle-safe badCar) "unsafe")
+(test (is-vehicle-safe myAirplane) "safe")
+(test (is-vehicle-safe badAirplane) "unsafe")  
