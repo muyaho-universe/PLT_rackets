@@ -155,8 +155,29 @@
 
 ; Problem 7
 ; Solved by myself: Y
-; Time taken: about 20 mins
-; [contract] update-name : symbol symbol -> a list of symbols
+; Time taken: about 60 mins
+; [contract] update-name : symbol symbol list of symbol -> list of symbols
 ; [purpose] To replacing all occurrences of old by new
 ; [tests] (test (update-name 'cherry 'claire (cons 'jc (cons 'cherry (cons 'kate empty))))
 ;      '(jc claire kate))
+;(test (update-name 'muyaho 'ball (list 'fifa 'soccer 'muyaho 'goal))
+;     '(fifa soccer ball goal))
+
+
+(define (update-name old new list_of_symbols)
+  (append(foldl cons '() (rest (member old (foldl cons '() list_of_symbols))))
+  (cons new (rest (member old list_of_symbols))))
+ )
+
+
+(test (update-name 'cherry 'claire (cons 'jc (cons 'cherry (cons 'kate empty))))
+     '(jc claire kate))
+
+(test (update-name 'muyaho 'ball (list 'fifa 'soccer 'muyaho 'goal))
+     '(fifa soccer ball goal))
+
+(test (update-name 'abc 'zzz (list 'abc 'def 'ghi 'jkl))
+     '(zzz def ghi jkl))
+
+
+	
