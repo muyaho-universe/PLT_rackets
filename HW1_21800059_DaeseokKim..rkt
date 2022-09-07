@@ -192,16 +192,28 @@
 ; [purpose] To produces a list of numbers which is binary-search traversal history.
 ; [tests]
 
-(define (binary-search-index lst target index)
-  (cond
-    [(=(list-ref lst index) target) 
+;(exact-floor (/ 3 2))
+;(list-ref (list 1 2 3 4) (exact-round (/ 5 2)))
+
+
+(define (half-of-list lst)
+  (list-ref lst (exact-floor (/ (length lst) 2)))
+  )
+
+(test (half-of-list (list 1 2 3 ) )2)
+
+(define (binary-search-with-list lst target memory-lst)
+  ()
   )
 
 (define (binary-search lst target)
   (cond
-    [(= (modulo (length lst) 2) 1)
+    [(= (half-of-list lst) target)
      
      ]
+    [else (cond
+            [(< (half-of-list lst) target) ] ;to right
+            [else ] ; to left
+            )]
     )
   )
-
