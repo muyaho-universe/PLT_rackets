@@ -187,33 +187,61 @@
 
 ; Problem 8
 ; Solved by myself: Y
-; Time taken: about 60 mins
+; Time taken: about 80 mins
 ; [contract] binary-search :a list of numbers number ->  list of numbers
 ; [purpose] To produces a list of numbers which is binary-search traversal history.
-; [tests]
-
-;(exact-floor (/ 3 2))
-;(list-ref (list 1 2 3 4) (exact-round (/ 5 2)))
+; [tests] (test (binary-search '(1 2 3) 3) '(2 3)) 
+;         (test (binary-search '(1 2 3 4 5 6 7 8) 3) '(4 2 3))
+;         (test(binary-search '(1 2 3 4 5 6 7 8 9 10) 9) '(5 8 9))
+;         (test (binary-search '(1 2 3 4 5 6 7) 6) '(4 6))
+;         (test (binary-search '(1 2 3 4 5 6 7 8 9) 4) '(5 2 3 4)) 
+;         (test (binary-search '(1 2 3 4 5 6 7 8 9) 3) '(5 2 3))
 
 
 (define (half-of-list lst)
-  (list-ref lst (exact-floor (/ (length lst) 2)))
+  (cond
+    [(= (modulo (length lst) 2) 1) (list-ref lst (exact-floor (/ (length lst) 2)))]
+    [else (list-ref lst (- (/ (length lst) 2) 1))]
   )
+ )
 
-(test (half-of-list (list 1 2 3 ) )2)
+
 
 (define (binary-search-with-list lst target memory-lst)
-  ()
+  (cond
+    [(= (half-of-list lst) target)
+     (append memory-lst (cons (half-of-list lst) empty))
+     ]
+    [else (cond
+            [(< (half-of-list lst) target) (binary-search-with-list (drop lst (exact-floor (/ (length lst) 2))) target (append memory-lst (cons (half-of-list lst) empty)))] ;to right
+            [else  (binary-search-with-list (take lst (exact-floor (/ (length lst) 2))) target (append memory-lst (cons (half-of-list lst) empty)))] ; to left
+            )]
+    )
   )
 
 (define (binary-search lst target)
   (cond
     [(= (half-of-list lst) target)
-     
+     (list (half-of-list lst))
      ]
     [else (cond
-            [(< (half-of-list lst) target) ] ;to right
-            [else ] ; to left
+            [(< (half-of-list lst) target) (binary-search-with-list (cond
+                                                                      [(= (modulo (length lst) 2) 1) (drop lst (+ (exact-floor (/ (length lst) 2))1))]
+                                                                      [else (drop lst  (/ (length lst) 2) )]
+                                                                     
+                                                                      ) target (cons (half-of-list lst) empty))] ;to right
+            [else  (binary-search-with-list (cond
+                                                                      [(= (modulo (length lst) 2) 1) (take lst  (exact-floor (/ (length lst) 2)))]
+                                                                      [else (take lst  (/ (length lst) 2) )]
+                                                                     
+                                                                      ) target (cons (half-of-list lst) empty))] ; to left
             )]
     )
   )
+
+(test (binary-search '(1 2 3) 3) '(2 3)) 
+(test (binary-search '(1 2 3 4 5 6 7 8) 3) '(4 2 3))
+(test(binary-search '(1 2 3 4 5 6 7 8 9 10) 9) '(5 8 9))
+(test (binary-search '(1 2 3 4 5 6 7) 6) '(4 6))
+(test (binary-search '(1 2 3 4 5 6 7 8 9) 4) '(5 2 3 4)) 
+(test (binary-search '(1 2 3 4 5 6 7 8 9) 3) '(5 2 3))
